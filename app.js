@@ -34,22 +34,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // express-session : 세션을 생성해준다.
-app.use(
-  session({
-    // 세션 식별자를 만들어주는 메서드
-    secret: "@hellcoders", // 비밀키
-    resave: false, // 클라 접속할 때마다 세션id 새로 발급할 것인지
-    saveUninitialized: true, // 세션 사용하기 전까지 식별자 발급하지 않도록
-    cookie: {
-      //  domain: 'ec2-18-117-241-8.us-east-2.compute.amazonaws.com',
-      path: "/",
-      maxAge: 24 * 6 * 60 * 10000,
-      sameSite: "none", //
-      httpOnly: true, //
-      secure: true, //
-    },
-  })
-);
+// app.use(
+//   session({
+//     // 세션 식별자를 만들어주는 메서드
+//     secret: "@hellcoders", // 비밀키
+//     resave: false, // 클라 접속할 때마다 세션id 새로 발급할 것인지
+//     saveUninitialized: true, // 세션 사용하기 전까지 식별자 발급하지 않도록
+//     cookie: {
+//       //  domain: 'ec2-18-117-241-8.us-east-2.compute.amazonaws.com',
+//       path: "/",
+//       maxAge: 24 * 6 * 60 * 10000,
+//       sameSite: "none", //
+//       httpOnly: true, //
+//       secure: true, //
+//     },
+//   })
+// );
 
 app.use("/api/user", userRouter);
 app.use("/api/contents", contentsRouter);
@@ -75,7 +75,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
-// app.listen(port, () => {
-//   console.log(`Example app listening at http://localhost:${port}`)
-// })

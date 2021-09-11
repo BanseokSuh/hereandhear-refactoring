@@ -1,14 +1,16 @@
 const crypto = require("crypto");
-const { user } = require("../../../models");
+const { user } = require("../../models");
 
 // 비밀번호 암호화
 module.exports = encryptPassword = async (unhashedPassword) => {
-  let encryptedPasswordAndSalt = await hashPassword(unhashedPassword);
+  let encryptedPasswordAndSalt = await getEncryptedPasswordAndSalt(
+    unhashedPassword
+  );
   return encryptedPasswordAndSalt;
 };
 
 // 비밀번호 해싱하기
-const hashPassword = (unhashedPassword) => {
+const getEncryptedPasswordAndSalt = (unhashedPassword) => {
   return new Promise(async (res, rej) => {
     const salt = await createSalt();
     // 암호화 되지 않은 비밀번호와 salt값을 이용해 sha512로 hashing

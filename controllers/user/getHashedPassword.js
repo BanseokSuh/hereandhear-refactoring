@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { user } = require("../../../models");
+const { user } = require("../../models");
 
 module.exports = getHashedPassword = async (email, unhashedPassword) => {
   return new Promise(async (response, reject) => {
