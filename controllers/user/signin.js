@@ -1,18 +1,21 @@
 const { user } = require("../../models");
-const getHashedPassword = require("./getHashedPassword");
-const { generateAccessToken, genereateRefreshToken } = require("./util-token");
+const { getUsersEncryptedPassword } = require("./utils/util-encrypt");
+const {
+  generateAccessToken,
+  genereateRefreshToken,
+} = require("./utils/util-token");
 
 module.exports = {
   post: async (req, res) => {
     const { email, password } = req.body;
     // 사용자의 salt값과 암호화 되지 않은 비밀번호를 조합하여 사용자의 비밀번호를 조회한다.
-    let hashedPassword = await getHashedPassword(email, password);
+    let encryptedPassword = await getUsersEncryptedPassword(email, password);
 
-    // 1. 사용자 찾기 with email and hashedPassword
+    // 1. 사용자 찾기 with email and encryptedPassword
     let foundUser = await user.findOne({
       where: {
         email: email,
-        password: hashedPassword,
+        password: encryptedPassword,
       },
     });
 
