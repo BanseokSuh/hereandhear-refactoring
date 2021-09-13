@@ -2,7 +2,7 @@ const { user } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
-    let userId = req.params.id;
+    let userId = res.locals.userId;
 
     if (!userId) {
       res.status(404).send({ data: null, message: "not found" });

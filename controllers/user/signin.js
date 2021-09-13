@@ -24,11 +24,11 @@ module.exports = {
     }
 
     // 2. 토큰 생성 => accessToken and refreshToken
-    let accessToken = generateAccessToken(foundUser.id);
-    let refreshToken = genereateRefreshToken(foundUser.id);
+    let accessToken = generateAccessToken(foundUser.id, foundUser.email);
+    let refreshToken = genereateRefreshToken(foundUser.id, foundUser.email);
 
     // 3. 사용자 정보와 토큰을 cookie에 담아서 리턴
-    res.cookie("accessToken", accessToken);
+    // res.cookie("accessToken", accessToken);
     res.cookie("refreshToken", refreshToken);
 
     // need to find out when to return access token and refresh token
@@ -38,6 +38,7 @@ module.exports = {
       email: foundUser.email,
       username: foundUser.username,
       nickname: foundUser.nickname,
+      accessToken,
     });
   },
 };

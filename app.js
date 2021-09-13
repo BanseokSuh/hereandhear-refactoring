@@ -51,6 +51,7 @@ app.use(cookieParser());
 //   })
 // );
 
+// app.use("/api", loginCheck);
 app.use("/api/user", userRouter);
 app.use("/api/contents", contentsRouter);
 app.use("/api/favorite", favoriteRouter);

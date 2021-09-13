@@ -1,12 +1,14 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-const { userController } = require('../controllers');
+const { userController } = require("../controllers");
+const { authenticateToken } = require("../middlewares/auth");
 
-router.post('/signin', userController.signin.post);
-router.post('/signout', userController.signout.post);
-router.post('/signup', userController.signup.post);
-router.post('/update', userController.update.post);
-router.get('/:id', userController.userinfo.get);
+// 미들웨어
+router.post("/signin", userController.signin.post);
+router.post("/signup", userController.signup.post);
+router.post("/signout", authenticateToken, userController.signout.post);
+router.post("/update", authenticateToken, userController.update.post);
+router.get("/userInfo", authenticateToken, userController.userinfo.get);
 
 module.exports = router;
