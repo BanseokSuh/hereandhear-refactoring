@@ -4,4 +4,5 @@ module.exports = {
   signup: require("./signup"),
   update: require("./update"),
   userinfo: require("./userinfo"),
+  token: require("./token"),
 };

@@ -1,4 +1,5 @@
 const { user } = require("../../models");
+const { getUsersEncryptedPassword } = require("./utils/util-encrypt");
 
 module.exports = {
   post: async (req, res) => {
@@ -7,7 +8,7 @@ module.exports = {
     let password = req.body.password;
     let email = req.body.email;
 
-    let hashedPassword = await getHashedPassword(email, password);
+    let hashedPassword = await getUsersEncryptedPassword(email, password);
 
     const foundUser = await user.findOne({
       where: {
@@ -16,20 +17,16 @@ module.exports = {
       },
     });
 
-    if (!foundUser) return res.status(404).send("비밀번호가 일치하지 않습니다");
+    if (!foundUser) return res.status(404).send("조회된 사용자가 없습니다.");
 
-    if (!nickname) {
-      res.status(400).send();
-    } else {
-      user.update(
-        {
-          nickname: nickname,
-        },
-        {
-          where: { id: userId },
-        }
-      );
-    }
+    user.update(
+      {
+        nickname: nickname,
+      },
+      {
+        where: { id: userId },
+      }
+    );
 
     res.end();
   },

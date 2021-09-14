@@ -3,14 +3,15 @@ const { encryptPassword } = require("./utils/util-encrypt");
 
 module.exports = {
   post: async (req, res) => {
-    let { email, password, username } = req.body;
+    let { email, password, username, nickname } = req.body;
     let encryptedPasswordAndSalt = await encryptPassword(password);
     let [result, created] = await user.findOrCreate({
       where: {
         email: email,
       },
       defaults: {
-        username: username,
+        username,
+        nickname,
         password: encryptedPasswordAndSalt.password,
         salt: encryptedPasswordAndSalt.salt,
       },

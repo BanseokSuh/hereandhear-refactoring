@@ -27,18 +27,26 @@ module.exports = {
     let accessToken = generateAccessToken(foundUser.id, foundUser.email);
     let refreshToken = genereateRefreshToken(foundUser.id, foundUser.email);
 
-    // 3. 사용자 정보와 토큰을 cookie에 담아서 리턴
-    // res.cookie("accessToken", accessToken);
-    res.cookie("refreshToken", refreshToken);
+    // 2.1. refreshToken을 사용장 DB에 저장
+    await user.update(
+      {
+        refreshToken: refreshToken,
+      },
+      {
+        where: {
+          id: foundUser.id,
+        },
+      }
+    );
 
-    // need to find out when to return access token and refresh token
-
+    // 3. 사용자 정보와 토큰을 body에 담아 리턴
     res.json({
       id: foundUser.id,
       email: foundUser.email,
       username: foundUser.username,
       nickname: foundUser.nickname,
       accessToken,
+      refreshToken,
     });
   },
 };
