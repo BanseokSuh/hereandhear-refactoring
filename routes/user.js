@@ -11,5 +11,6 @@ router.post("/signout", authenticateToken, userController.signout.post);
 router.post("/update", authenticateToken, userController.update.post);
 router.get("/userInfo", authenticateToken, userController.userinfo.get);
 router.post("/token", userController.token.post);
+router.post("/getNewPassword", userController.getNewPassword.post);
 
 module.exports = router;

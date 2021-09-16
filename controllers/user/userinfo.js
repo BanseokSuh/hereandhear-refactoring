@@ -1,25 +1,15 @@
-const { user } = require("../../models");
+const { findUserFromDBWithId } = require("./utils/userCRUD");
 
 module.exports = {
   get: async (req, res) => {
-    let userId = res.locals.userId;
+    const userId = res.locals.userId;
+    if (!userId) res.status(404).send({ data: null, message: "not found" });
 
-    if (!userId) {
-      res.status(404).send({ data: null, message: "not found" });
-    } else {
-      const data = await user
-        .findOne({
-          where: { id: userId },
-        })
-        .catch((err) => res.json(err));
+    const foundUser = await findUserFromDBWithId(userId, res);
 
-      delete data.dataValues.password;
-      delete data.dataValues.salt;
-
-      res.status(200).json({
-        data: data.dataValues,
-        message: "ok",
-      });
-    }
+    res.status(200).json({
+      data: foundUser.dataValues,
+      message: "ok",
+    });
   },
 };

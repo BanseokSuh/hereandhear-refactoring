@@ -5,4 +5,5 @@ module.exports = {
   update: require("./update"),
   userinfo: require("./userinfo"),
   token: require("./token"),
+  getNewPassword: require("./getNewPassword"),
 };
