@@ -1,5 +1,7 @@
-const { user } = require("../../models");
-const { findUserFromDB } = require("./utils/userCRUD");
+const {
+  findUserFromDB,
+  insertRefreshTokenIntoDB,
+} = require("./utils/userCRUD");
 const { getUsersEncryptedPassword } = require("./utils/util-encrypt");
 const {
   generateAccessToken,
@@ -15,8 +17,10 @@ module.exports = {
     if (!foundUser)
       return res.status(404).send("조회된 사용자 정보가 없습니다.");
 
-    let accessToken = generateAccessToken(foundUser.id);
-    let refreshToken = genereateRefreshToken(foundUser.id);
+    const accessToken = generateAccessToken(foundUser.id, foundUser.email);
+    const refreshToken = genereateRefreshToken(foundUser.id, foundUser.email);
+
+    insertRefreshTokenIntoDB(foundUser.id, refreshToken);
 
     res.json({
       id: foundUser.id,

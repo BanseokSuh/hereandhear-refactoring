@@ -10,20 +10,18 @@ module.exports = {
     });
   },
 
-  findUserFromDBWithId: async (userId, res) => {
-    return await user
-      .findOne({
-        attributes: [
-          "id",
-          "email",
-          "username",
-          "nickname",
-          "createdAt",
-          "updatedAt",
-        ],
-        where: { id: userId },
-      })
-      .catch((err) => res.json(err));
+  findUserFromDBWithId: async (userId) => {
+    return await user.findOne({
+      attributes: [
+        "id",
+        "email",
+        "username",
+        "nickname",
+        "createdAt",
+        "updatedAt",
+      ],
+      where: { id: userId },
+    });
   },
 
   findOrCreateUser: async (email, username, nickname, password, salt) => {

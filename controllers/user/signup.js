@@ -1,4 +1,3 @@
-const { user } = require("../../models");
 const { findOrCreateUser } = require("./utils/userCRUD");
 const { encryptPassword } = require("./utils/util-encrypt");
 
