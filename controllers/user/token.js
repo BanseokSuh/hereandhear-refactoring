@@ -1,21 +1,14 @@
 const jwt = require("jsonwebtoken");
-const { user } = require("../../models");
+const { getRefreshTokenFromDB } = require("./utils/userCRUD");
 const { generateAccessToken } = require("./utils/util-token");
 
 module.exports = {
   post: async (req, res) => {
     const refreshToken = req.body.token;
-
     if (refreshToken === null) res.sendStatus(401);
 
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-    const userToken = await user.findOne({
-      attributes: ["refreshToken"],
-      where: {
-        id: decoded.id,
-      },
-    });
+    const userToken = getRefreshTokenFromDB(decoded.id);
 
     if (!userToken) res.sendStatus(401);
 
