@@ -11,6 +11,7 @@ module.exports = {
     if (!foundUser) return res.status(404).send("비밀번호가 일치하지 않습니다");
 
     updateUser(userId, nickname);
+
     res.json({ message: "update completed!" });
   },
 };

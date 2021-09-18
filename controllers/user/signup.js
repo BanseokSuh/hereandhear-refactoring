@@ -13,9 +13,7 @@ module.exports = {
       encryptedPasswordAndSalt.password,
       encryptedPasswordAndSalt.salt
     );
-
     if (!created) return res.status(409).send("email exists");
-
     result = result.get({ plain: true });
 
     delete result.password;
