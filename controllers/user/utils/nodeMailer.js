@@ -4,12 +4,12 @@ const EMAIL = process.env.EMAIL;
 const EMAIL_PW = process.env.EMAIL_PW;
 
 module.exports = {
-  sendMail: (email) => {
+  sendMail: (email, randomString) => {
     const transport = createTransport();
-    const mailOption = setMailOption(email);
+    const mailOption = setMailOption(email, randomString);
 
     transport.sendMail(mailOption, (error, info) => {
-      if (error) console.log("nodemailer error : ", error);
+      if (error) throw new Error(error);
     });
   },
 };
@@ -24,16 +24,16 @@ const createTransport = () => {
   });
 };
 
-const setMailOption = (email) => {
+const setMailOption = (email, randomString) => {
+  const htmlMessage = getHTMLMessage(randomString);
   return {
     from: EMAIL,
     to: "still3028@gmail.com", // 인자로 전달받은 email이 들어가야 함
     subject: "hello banny",
-    html: "<h1>hello</h1>",
-    text: "hi there im banny",
+    html: htmlMessage,
   };
 };
 
-const sendMail = () => {
-  //
+const getHTMLMessage = (randomString) => {
+  return `<h1>Hi there Im banny. Your temporary password is ${randomString}.</h1>`;
 };

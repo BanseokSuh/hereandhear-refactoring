@@ -1,5 +1,9 @@
 const { sendMail } = require("./utils/nodeMailer");
-const { findUserFromDBToGetANewPassword } = require("./utils/userCRUD");
+const {
+  findUserFromDBToGetANewPassword,
+  saveEncryptedPasswordAndSaltIntoDB,
+} = require("./utils/userCRUD");
+const { encryptPassword } = require("./utils/util-encrypt");
 
 module.exports = {
   post: async (req, res) => {
@@ -11,16 +15,25 @@ module.exports = {
     if (!foundUser)
       return res.status(404).send("조회된 사용자 정보가 없습니다.");
 
-    // 임의의 문자열 생성
-    // 문자열을 encrypt
-    // encryptedPassword를 DB에 저장
-    // 문자열은 email로 전달
+    const randomString = getRandomString();
+    const encryptedPasswordAndSalt = await encryptPassword(randomString);
 
-    sendMail(email);
+    saveEncryptedPasswordAndSaltIntoDB(
+      encryptedPasswordAndSalt.password,
+      encryptedPasswordAndSalt.salt,
+      foundUser.id
+    );
+
+    // 문자열은 email로 전달
+    sendMail(email, randomString);
 
     res.json({
-      foundUser: foundUser,
+      tmpPassword: randomString,
       message: "getting new password",
     });
   },
+};
+
+const getRandomString = () => {
+  return Math.random().toString(36).substr(2, 11);
 };

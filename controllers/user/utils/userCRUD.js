@@ -87,4 +87,19 @@ module.exports = {
       },
     });
   },
+
+  saveEncryptedPasswordAndSaltIntoDB: (encryptedPassword, salt, userId) => {
+    //
+    user.update(
+      {
+        password: encryptedPassword,
+        salt: salt,
+      },
+      {
+        where: {
+          id: userId,
+        },
+      }
+    );
+  },
 };
