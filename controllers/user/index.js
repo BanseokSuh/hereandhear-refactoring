@@ -6,4 +6,5 @@ module.exports = {
   userinfo: require("./userinfo"),
   token: require("./token"),
   getNewPassword: require("./getNewPassword"),
+  changePassword: require("./changePassword"),
 };

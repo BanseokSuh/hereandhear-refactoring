@@ -2,7 +2,6 @@ const crypto = require("crypto");
 const { user } = require("../../../models");
 
 module.exports = {
-  // 회원가입 시 비밀번호 암호화
   encryptPassword: async (unhashedPassword) => {
     let encryptedPasswordAndSalt = await getEncryptedPasswordAndSalt(
       unhashedPassword
@@ -10,10 +9,8 @@ module.exports = {
     return encryptedPasswordAndSalt;
   },
 
-  // 사용자의 암호화된 암호 조회
   getUsersEncryptedPassword: async (email, unhashedPassword) => {
     return new Promise(async (response, reject) => {
-      // 사용자의 salt값 가져오기
       try {
         const salt = await user
           .findOne({
@@ -24,28 +21,20 @@ module.exports = {
             },
           })
           .then((result) => result.salt)
-          .catch((err) => {
-            console.error(err);
-          });
-        // .catch(err => reject('')); // ???????
+          .catch((err) => console.error(err));
+        if (!salt) reject("조회된 사용자가 없습니다.");
 
-        // 조회된 salt 값이 없으면?
-        if (!salt) {
-          reject("조회된 결과가 없습니다.");
-        } else {
-          // salt값과 password 조합하여 얻은 해싱비밀번호 리턴
-          crypto.pbkdf2(
-            unhashedPassword,
-            salt,
-            17598,
-            64,
-            "sha512",
-            (err, key) => {
-              if (err) reject(err);
-              response(key.toString("base64")); // key는 버퍼 데이터
-            }
-          );
-        }
+        crypto.pbkdf2(
+          unhashedPassword,
+          salt,
+          17598,
+          64,
+          "sha512",
+          (err, key) => {
+            if (err) reject(err);
+            response(key.toString("base64"));
+          }
+        );
       } catch (err) {
         throw err;
       }

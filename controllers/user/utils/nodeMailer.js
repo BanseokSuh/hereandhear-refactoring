@@ -4,9 +4,9 @@ const EMAIL = process.env.EMAIL;
 const EMAIL_PW = process.env.EMAIL_PW;
 
 module.exports = {
-  sendMail: (email, randomString) => {
+  sendMail: (email, tmpPassword) => {
     const transport = createTransport();
-    const mailOption = setMailOption(email, randomString);
+    const mailOption = setMailOption(email, tmpPassword);
 
     transport.sendMail(mailOption, (error, info) => {
       if (error) throw new Error(error);
@@ -24,8 +24,8 @@ const createTransport = () => {
   });
 };
 
-const setMailOption = (email, randomString) => {
-  const htmlMessage = getHTMLMessage(randomString);
+const setMailOption = (email, tmpPassword) => {
+  const htmlMessage = getHTMLMessage(tmpPassword);
   return {
     from: EMAIL,
     to: "still3028@gmail.com", // 인자로 전달받은 email이 들어가야 함
@@ -34,6 +34,6 @@ const setMailOption = (email, randomString) => {
   };
 };
 
-const getHTMLMessage = (randomString) => {
-  return `<h1>Hi there Im banny. Your temporary password is ${randomString}.</h1>`;
+const getHTMLMessage = (tmpPassword) => {
+  return `<h1>Hi there Im banny. Your temporary password is ${tmpPassword}.</h1>`;
 };
