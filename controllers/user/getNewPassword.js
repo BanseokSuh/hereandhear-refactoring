@@ -24,7 +24,6 @@ module.exports = {
     sendMail(email, tmpPassword);
 
     res.json({
-      tmpPassword: tmpPassword,
       message: "getting new password",
     });
   },
