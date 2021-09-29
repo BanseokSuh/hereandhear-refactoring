@@ -12,6 +12,4 @@ module.exports = {
       expiresIn: "2w",
     });
   },
-
-  authenticateToken: function (token) {},
 };

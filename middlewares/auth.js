@@ -18,6 +18,7 @@ module.exports = {
 
       if (decoded) {
         res.locals.userId = decoded.id;
+        res.locals.userEmail = decoded.email;
         next();
       } else {
         res.status(401).json({ error: "unauthorized user" });

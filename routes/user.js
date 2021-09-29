@@ -11,6 +11,10 @@ router.post("/update", authenticateToken, userController.update.post);
 router.get("/userInfo", authenticateToken, userController.userinfo.get);
 router.post("/token", userController.token.post);
 router.post("/getNewPassword", userController.getNewPassword.post);
-router.post("/changePassword", userController.changePassword.post);
+router.post(
+  "/changePassword",
+  authenticateToken,
+  userController.changePassword.post
+);
 
 module.exports = router;

@@ -9,7 +9,12 @@ const {
 
 module.exports = {
   post: async (req, res) => {
+    const authEmail = res.locals.userEmail;
     const { email, oldPassword, newPassword } = req.body;
+
+    if (authEmail !== email)
+      return res.status(401).send("이메일이 일치하지 않습니다.");
+
     const encryptedPassword = await getUsersEncryptedPassword(
       email,
       oldPassword
